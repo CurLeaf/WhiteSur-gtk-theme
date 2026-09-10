@@ -83,7 +83,7 @@ XfdesktopIconView.view {
   color: $selected_fg_color;
   text-shadow: $text_shadow;
 
-  &:active, &:checked {
+  &:hover, &:active, &:checked {
     background-color: $selected_bg_color;
     color: $selected_fg_color;
     text-shadow: none;
