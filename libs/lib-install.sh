@@ -569,6 +569,22 @@ remove_libadwaita() {
   rm -rf "${HOME}/.config/gtk-4.0/"{gtk.css,gtk-dark.css,gtk-Light.css,gtk-Dark.css,assets,windows-assets}
 }
 
+#############################
+# gnome-theme-switcher #
+############################
+
+install_app() {
+  prompt -w "\n  Installing 'gnome-theme-switcher' app...\n";
+
+  [[ -f "${BIN_DIR}/gnome-theme-switcher" ]] && rm -rf "${BIN_DIR}/gnome-theme-switcher"
+  [[ -f "${APP_DIR}/org.gnome.GTK4ThemeSwitcher.desktop" ]] && rm -rf "${APP_DIR}/org.gnome.GTK4ThemeSwitcher.desktop"
+
+  mkdir -p "${BIN_DIR}"
+  cp -r "${REPO_DIR}/other/gnome-theme-switcher/gnome-theme-switcher" "${BIN_DIR}"
+  mkdir -p "${APP_DIR}"
+  cp -r "${REPO_DIR}/other/gnome-theme-switcher/org.gnome.GTK4ThemeSwitcher.desktop" "${APP_DIR}"
+}
+
 ###############################################################################
 #                                   THEMES                                    #
 ###############################################################################

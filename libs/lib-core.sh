@@ -82,10 +82,19 @@ FIREFOX_SNAP_DIR_HOME="${MY_HOME}/snap/firefox/common/.mozilla/firefox"
 FIREFOX_SNAP_THEME_DIR="${FIREFOX_SNAP_DIR_HOME}/firefox-themes"
 export WHITESUR_TMP_DIR="/tmp/WhiteSur.lock"
 
+# Destination directory
 if [[ -w "/root" ]]; then
   THEME_DIR="/usr/share/themes"
 else
   THEME_DIR="$HOME/.themes"
+fi
+
+if [[ -w "/root" ]]; then
+  APP_DIR="/usr/share/applications"
+  BIN_DIR="/usr/bin"
+else
+  APP_DIR="$HOME/.local/share/applications"
+  BIN_DIR="$HOME/.local/bin"
 fi
 
 #--------------GDM----------------#
