@@ -1653,19 +1653,17 @@ popover.details-popover {
 //
 
 .hosty-window {
-  toolbarview {
-    headerbar {
-      min-height: 0;
+  toolbarview headerbar {
+    min-height: 0;
 
-      > windowhandle > box {
-        padding-top: 0;
-        padding-bottom: 0;
+    > windowhandle > box {
+      padding-top: 0;
+      padding-bottom: 0;
 
-        viewswitcher.wide {
-          min-height: 0;
-          margin-top: 8px;
-          margin-bottom: 8px;
-        }
+      viewswitcher.wide {
+        min-height: 0;
+        margin-top: 8px;
+        margin-bottom: 8px;
       }
     }
   }
@@ -1676,11 +1674,6 @@ popover.details-popover {
     button.image-button.toggle {
       margin-top: 8px;
       margin-bottom: 8px;
-    }
-
-    .toolbar {
-      padding-top: 0;
-      padding-bottom: 0;
     }
 
     windowtitle {
