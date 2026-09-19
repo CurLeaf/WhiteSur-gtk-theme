@@ -11,13 +11,31 @@ This fork tracks [vinceliuice/WhiteSur-gtk-theme](https://github.com/vinceliuice
 2. **Window buttons on the right** (Ubuntu / GNOME layout)
    - `ButtonLayout=:minimize,maximize,close` instead of macOS left traffic lights
 
+## One-time GitHub fork (CurLeaf)
+
+SSH already authenticates as `CurLeaf`. API login is needed once to create the fork:
+
+```bash
+gh auth login -h github.com -p ssh -w
+cd ~/Projects/WhiteSur-gtk-theme
+./setup-fork.sh
+```
+
+Repo: https://github.com/CurLeaf/WhiteSur-gtk-theme
+
 ## Pull upstream
 
 ```bash
 cd ~/Projects/WhiteSur-gtk-theme
+./sync-upstream.sh    # fetch + rebase + reinstall dark pack
+git push              # publish local commits to your fork
+```
+
+Or manually:
+
+```bash
 git fetch upstream
-git rebase upstream/master   # or: git merge upstream/master
-# resolve conflicts if any, then:
+git rebase upstream/master
 ./install.sh -c dark -o normal -l -f --round --shell -i apple
 ```
 
