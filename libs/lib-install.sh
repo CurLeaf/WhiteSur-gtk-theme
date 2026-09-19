@@ -436,7 +436,7 @@ install_theemy() {
   desktop_entry+="MetacityTheme=${name}${color}${opacity}${alt}${theme}${scheme}\n"
   desktop_entry+="IconTheme=${name}${iconcolor}\n"
   desktop_entry+="CursorTheme=WhiteSur-cursors\n"
-  desktop_entry+="ButtonLayout=close,minimize,maximize:menu\n"
+  desktop_entry+="ButtonLayout=:minimize,maximize,close\n"
 
   echo -e "${desktop_entry}" >                                                                "${TARGET_DIR}/index.theme"
 
