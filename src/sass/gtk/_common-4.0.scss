@@ -4847,9 +4847,10 @@ window.dialog.message { // Message Dialog styling
   &.background { background-color: $dialog_bg_color; }
 
   .titlebar {
-    min-height: 28px;
+    min-height: 0;
     background-color: transparent;
     border: none;
+    box-shadow: none;
   }
 
   box.dialog-vbox.vertical {
@@ -4893,12 +4894,23 @@ window.dialog.message { // Message Dialog styling
   }
 }
 
-window.background.messagedialog {
+window.background.messagedialog,
+window.dialog-window.alert {
+  background-color: $dialog_bg_color;
+
+  .titlebar,
+  > headerbar {
+    min-height: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+
   .response-area {
     padding: $container_padding;
 
     button {
-      min-height: 20px;
+      min-height: 24px;
       padding: ($container_padding - 2px) ($container_padding + 2px);
       box-shadow: none;
       border-radius: $bt_radius;
@@ -4929,7 +4941,14 @@ window.background.messagedialog {
 }
 
 dialog.alert {
-  .compact.response-area {
+  .response-area {
+    button {
+      min-height: 24px;
+    }
+  }
+
+  &.compact .response-area,
+  &.short .response-area {
     button {
       min-height: 24px;
       padding: $container_padding;
@@ -5557,6 +5576,14 @@ window {
       outline: none;
       box-shadow: none;
       transition: none;
+    }
+
+    &.dialog-window,
+    &.messagedialog,
+    &.dialog.message {
+      transition: none;
+
+      &:backdrop { transition: none; }
     }
 
     &.ssd-frame {

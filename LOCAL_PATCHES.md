@@ -7,6 +7,9 @@ This fork tracks [vinceliuice/WhiteSur-gtk-theme](https://github.com/vinceliuice
 1. **GTK `color-mix()` parser crash / empty-trash dialog flicker** ([upstream #1392](https://github.com/vinceliuice/WhiteSur-gtk-theme/issues/1392))
    - Missing comma: `color-mix(in srgb, black 6% $color)` → `black 6%, $color`
    - Avoid nesting CSS `mix()` inside `color-mix()` for selection-mode borders
+   - Keep `AdwAlertDialog` / `dialog-window.alert` sheets opaque (normal opacity still flickers on GNOME 50 + Wayland)
+   - Don't `@extend %view` onto dialog sheets (`transition: all` fights the dialog animation)
+   - Match GNOME 50 alert-dialog layout so the empty-trash confirm stops resizing itself
 
 2. **Window buttons on the right** (Ubuntu / GNOME layout)
    - `ButtonLayout=:minimize,maximize,close` instead of macOS left traffic lights

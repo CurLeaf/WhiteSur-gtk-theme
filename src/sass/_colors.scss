@@ -180,12 +180,10 @@ $dark_sidebar_fg:                   $text_color;
 $dark_sidebar_border:               if($variant == 'light', $solid_borders_color, gtkmix(black, $dark_sidebar_bg, 75%));
 $sidebar_theme_color:               gtkalpha(currentColor, 0.15);
 
-//dialog
+// Dialogs stay opaque even when the rest of the theme is translucent.
+// Semi-transparent AdwAlertDialog sheets flicker on GNOME 47+ / Wayland.
 $dialog_bg_color:                   if($variant == 'light', $bg_color, $base_color);
-
-@if $trans=='true' {
-  $dialog_bg_color:                 if($variant == 'light', gtkalpha($bg_color, $opacity), gtkalpha($base_color, $opacity));
-}
+$dialog_fg_color:                   $text_color;
 
 //OSD colors
 $osd_fg_color:                      if($scheme == 'nord', #dadada, #d3d7df);
