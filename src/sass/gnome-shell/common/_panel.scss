@@ -114,7 +114,8 @@ $panel_height: $menuitem_size;
   transition-duration: 250ms;
   // @include font(body-1);
   height: $panel_height !important;
-  box-shadow: 0 5px 16px rgba(black, 0.05);
+  // No translucent drop shadow — it would keep a blend strip under the bar.
+  box-shadow: none;
 
   // the rounded outset corners
   .panel-corner {

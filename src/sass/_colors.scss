@@ -228,23 +228,13 @@ $submenu_bg_color:                  if($variant == 'light', rgba(white, 1), rgba
   }
 }
 
-// Panel colors
+// Panel colors stay fully opaque even when the rest of the theme is translucent.
+// A translucent #panel (rgba(black, 0.15) by default) is blended with the
+// wallpaper on every compositor frame; at 100 Hz that never stops.
 $panel_bg:                          if($variant == 'light', #f1f1f1, if($darker == 'true', #1f1f1f, #2a2a2a));
 
 @if $scheme == 'nord' {
   $panel_bg:                        if($variant == 'light', #f0f1f4, if($darker == 'true', #1a1d24, #222730));
-}
-
-@if $trans == 'true' {
-  $panel_bg:                        if($variant == 'light', rgba(white, $panel_opacity/2 + 0.08), rgba(black, $panel_opacity));
-
-  @if $panel_font == 'black' {
-    $panel_bg:                      if($variant == 'light', rgba(white, $panel_opacity/2 + 0.08), rgba(black, $panel_opacity/2));
-  }
-
-  @if $scheme == 'nord' {
-    $panel_bg:                      if($variant == 'light', rgba(#9da8be, $panel_opacity/2 + 0.12), rgba(#1a1d23, $panel_opacity + 0.08));
-  }
 }
 
 $panel_text:                        if($variant == 'light', #363636, white);

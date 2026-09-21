@@ -14,6 +14,29 @@ This fork tracks [vinceliuice/WhiteSur-gtk-theme](https://github.com/vinceliuice
 2. **Window buttons on the right** (Ubuntu / GNOME layout)
    - `ButtonLayout=:minimize,maximize,close` instead of macOS left traffic lights
 
+3. **Ubuntu Dock multi-window click = App Spread** (Ubuntu native window picker)
+   - `click-action='focus-minimize-or-appspread'`
+   - One window: click focused icon to minimize (kept from previous setup)
+   - Several windows: click the focused icon to open Ubuntu's full-screen task windows
+   - Re-apply after a dconf reset:
+     ```bash
+     gsettings set org.gnome.shell.extensions.dash-to-dock click-action 'focus-minimize-or-appspread'
+     ```
+
+4. **Desktop performance (NVIDIA + GNOME 50 + 100 Hz)**
+   - Keep the GNOME Shell top bar fully opaque (`#2a2a2a`) so mutter does not blend wallpaper through `rgba(black, 0.15)` on every 100 Hz frame
+   - Dock `intellihide-mode='FOCUS_APPLICATION_WINDOWS'` (not `ALL_WINDOWS`)
+   - Dock `dance-urgent-applications=false`
+   - `powerprofilesctl` → `performance`
+   - `vm.swappiness=10` via `/etc/sysctl.d/99-desktop-perf.conf`
+   - GTK4 `GSK_RENDERER=ngl` in `~/.config/environment.d/50-nvidia-gtk.conf` (needs a new login)
+   - Re-apply after a dconf reset:
+     ```bash
+     gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode 'FOCUS_APPLICATION_WINDOWS'
+     gsettings set org.gnome.shell.extensions.dash-to-dock dance-urgent-applications false
+     powerprofilesctl set performance
+     ```
+
 ## One-time GitHub fork (CurLeaf)
 
 SSH already authenticates as `CurLeaf`. API login is needed once to create the fork:
