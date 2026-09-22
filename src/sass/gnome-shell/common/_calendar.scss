@@ -1,6 +1,6 @@
 /* Date/Time Menu */
 
-$popover_bubble_bg: if($variant == 'light', rgba(white, 0.95), rgba(lighten($base_color, 8%), 0.95));
+$popover_bubble_bg: if($variant == 'light', rgba(white, $popover_opacity), rgba(lighten($base_color, 8%), $popover_opacity));
 
 %popover_bubble {
   color: $alt_fg_color;

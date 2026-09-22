@@ -31,7 +31,9 @@ has_command() {
 
 if has_command gnome-shell; then
   SHELL_VERSION="$(gnome-shell --version | cut -d ' ' -f 3 | cut -d . -f -1)"
-  if [[ "${SHELL_VERSION:-}" -ge "48" ]]; then
+  if [[ "${SHELL_VERSION:-}" -ge "50" ]]; then
+    GNOME_VERSION="50-0"
+  elif [[ "${SHELL_VERSION:-}" -ge "48" ]]; then
     GNOME_VERSION="48-0"
   elif [[ "${SHELL_VERSION:-}" -ge "47" ]]; then
     GNOME_VERSION="47-0"
@@ -47,8 +49,8 @@ if has_command gnome-shell; then
     GNOME_VERSION="3-28"
   fi
 else
-  SHELL_VERSION="48"
-  GNOME_VERSION="48-0"
+  SHELL_VERSION="50"
+  GNOME_VERSION="50-0"
 fi
 
 #----------Program options-------------#
@@ -80,6 +82,10 @@ FIREFOX_FLATPAK_DIR_HOME="${MY_HOME}/.var/app/org.mozilla.firefox/.mozilla/firef
 FIREFOX_FLATPAK_THEME_DIR="${FIREFOX_FLATPAK_DIR_HOME}/.mozilla/firefox/firefox-themes"
 FIREFOX_SNAP_DIR_HOME="${MY_HOME}/snap/firefox/common/.mozilla/firefox"
 FIREFOX_SNAP_THEME_DIR="${FIREFOX_SNAP_DIR_HOME}/firefox-themes"
+ZEN_SRC_DIR="${REPO_DIR}/other/zen"
+ZEN_DIR_HOME="${MY_HOME}/.zen"
+ZEN_FLATPAK_DIR_HOME="${MY_HOME}/.var/app/app.zen_browser.zen/.zen"
+ZEN_FLATPAK_DIR_HOME_ALT="${MY_HOME}/.var/app/io.github.zen_browser.zen/.zen"
 export WHITESUR_TMP_DIR="/tmp/WhiteSur.lock"
 
 # Destination directory
@@ -164,6 +170,7 @@ no_blur="false"
 
 firefox="false"
 edit_firefox="false"
+zen="false"
 flatpak="false"
 snap="false"
 gdm="false"

@@ -1190,6 +1190,143 @@ themeswitcher { // Gnome console
 }
 
 //
+// AdwSpinner (libadwaita 1.6+)
+// Custom-drawn; CSS only sizes the node. Do not reuse GtkSpinner's
+// process-working-symbolic animation here.
+//
+
+image.spinner {
+  min-width: 16px;
+  min-height: 16px;
+  -gtk-icon-size: 16px;
+  -gtk-icon-source: none;
+  background: none;
+  opacity: 1;
+}
+
+//
+// AdwToggleGroup / AdwInlineViewSwitcher (libadwaita 1.7+)
+//
+
+toggle-group {
+  padding: 3px;
+  border-spacing: 3px;
+  border-radius: $bt_radius;
+  background-color: gtkalpha(currentColor, 0.06);
+  color: $text_color;
+
+  --active-toggle-bg-color: #{if($variant == 'light', white, gtkalpha(white, 0.2))};
+  --active-toggle-fg-color: #{if($variant == 'light', $text_color, white)};
+
+  > separator {
+    margin: 3px 0;
+    background-color: $borders_color;
+
+    &.hidden { opacity: 0; }
+  }
+
+  > toggle {
+    min-width: 0;
+    min-height: 0;
+    padding: 5px 10px;
+    border: none;
+    border-radius: $bt_radius - 3px;
+    background: none;
+    box-shadow: none;
+    color: inherit;
+    font-weight: 600;
+    outline: none;
+
+    &:hover:not(:checked):not(:disabled) {
+      background-color: gtkalpha(currentColor, 0.08);
+    }
+
+    &:active:not(:checked) {
+      background-color: gtkalpha(currentColor, 0.12);
+    }
+
+    &:checked {
+      background-color: var(--active-toggle-bg-color);
+      color: var(--active-toggle-fg-color);
+      box-shadow: $shadow_3;
+    }
+
+    &:disabled {
+      opacity: $disabled_opacity;
+    }
+  }
+
+  &.flat {
+    background: none;
+    padding: 0;
+    border-spacing: $container_padding / 2;
+
+    > toggle {
+      border-radius: $bt_radius;
+
+      &:checked {
+        background-color: gtkalpha(currentColor, 0.1);
+        box-shadow: none;
+      }
+    }
+  }
+
+  &.round {
+    border-radius: $circular_radius;
+
+    > toggle { border-radius: $circular_radius; }
+  }
+
+  &:disabled {
+    filter: opacity($disabled_opacity);
+  }
+}
+
+wrap-box {
+  border-spacing: $container_padding;
+}
+
+//
+// AdwBottomSheet (widget, not only dialog.bottom-sheet)
+//
+
+bottom-sheet {
+  > dimming {
+    background-color: rgba(black, 0.35);
+  }
+
+  > sheet {
+    background-color: $dialog_bg_color;
+    color: $dialog_fg_color;
+    border-radius: $wm_radius $wm_radius 0 0;
+    outline: 1px solid $highlight_color;
+    outline-offset: -1px;
+    box-shadow: 0 -3px 12px $wm_shadow;
+    transition: none;
+
+    > drag-handle {
+      min-height: 4px;
+      min-width: 32px;
+      margin: $container_padding 0;
+      border-radius: $circular_radius;
+      background-color: gtkalpha(currentColor, 0.25);
+    }
+  }
+
+  &.flush-left > sheet,
+  &.flush-right > sheet,
+  &.flush-left.flush-right > sheet {
+    border-radius: 0;
+  }
+}
+
+dialog.bottom-sheet {
+  &.narrow sheet {
+    border-radius: $wm_radius $wm_radius 0 0;
+  }
+}
+
+//
 // AdwTabOverview
 //
 

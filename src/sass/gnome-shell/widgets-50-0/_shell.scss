@@ -1,0 +1,105 @@
+/* GNOME 50 shell widgets that 48-era files never named. */
+
+.osd-break-countdown-label {
+  background-color: $primary_color;
+  color: $selected_fg_color;
+  border-radius: $wm_radius;
+  font-size: 3em;
+  font-weight: bold;
+  font-feature-settings: "tnum";
+  margin: $base_padding * 3;
+  padding: $base_padding * 3;
+  text-align: center;
+  min-width: 1.5em;
+}
+
+.spinner {
+  padding: $base_padding;
+}
+
+.search-statusbox {
+  spacing: $base_padding * 6;
+}
+
+.calendar .calendar-month-header {
+  spacing: $base_padding;
+}
+
+.message-list-controls .message-list-clear-button {
+  border-radius: $circular_radius;
+}
+
+.ws-switcher-indicator {
+  background-color: $light_track_color;
+  padding: $base_padding / 2;
+  margin: $base_padding * 2;
+  border-radius: $circular_radius;
+
+  &:active {
+    background-color: $light_fg_color;
+    padding: $base_padding;
+    margin: $base_padding * 1.5;
+  }
+}
+
+// Wi-Fi QR in Quick Settings
+.qr-code {
+  border-radius: $bt_radius;
+  border-width: 1em;
+  background-color: white;
+  border-color: white;
+  color: #2e2e33;
+}
+
+.unlock-dialog-notifications-container {
+  margin: $base_padding * 2;
+  spacing: $base_padding;
+  width: 25em;
+  background-color: transparent;
+
+  .message,
+  .unlock-dialog-notification-source {
+    padding: $base_padding * 2 $base_padding * 3;
+    border: none;
+    background-color: $light_divider_color;
+    color: $light_fg_color;
+    border-radius: $modal_radius;
+
+    &.critical { background-color: $light_track_color; }
+    &:active { background-color: $light_divider_color; }
+
+    .message-header {
+      color: $light_fg_color;
+    }
+
+    StButton {
+      background-color: transparent;
+
+      &:insensitive {
+        background-color: transparent;
+        opacity: $disabled_opacity;
+      }
+    }
+  }
+}
+
+.unlock-dialog-notification-icon {
+  icon-size: $base_icon_size * 2;
+}
+
+.unlock-dialog-notification-label {
+  padding-left: $base_padding * 2;
+
+  &:rtl {
+    padding-right: $base_padding * 2;
+    padding-left: 0;
+  }
+}
+
+.unlock-dialog-notification-count-text {
+  font-weight: bold;
+  padding: 0 $base_padding * 2;
+  color: $light_fg_color;
+  background-color: $light_divider_color;
+  border-radius: $circular_radius;
+}

@@ -50,6 +50,8 @@ usage() {
 
   helpify "-e, --edit-firefox"  "[(monterey|flat)|alt|(darker|adaptive)]"           "  Edit '${THEME_NAME}' theme for Firefox settings and also connect the theme to the current Firefox profiles" ""
 
+  helpify "-z, --zen"           ""                                                  "  Install Safari theme into Zen Browser profiles"                 "Uses other/zen + WhiteSur chrome"
+
   helpify "" "" "Others" "options"
   sec_title "-F, --flatpak"     "Support options: [-o, -c, -t...]"                             "  Connect '${THEME_NAME}' theme to Flatpak"                         "Without options will only install default themes"
   sec_helpify "1.  -o, --opacity"          "[$(IFS='|'; echo "${OPACITY_VARIANTS[*]}")]"       "  Set '${THEME_NAME}' flatpak theme opacity variants"               "Default is 'normal'"
@@ -194,6 +196,18 @@ while [[ $# -gt 0 ]]; do
         prompt -e "'${1}' ERROR: Firefox is running, please close it"
         has_any_error="true"
       fi; shift ;;
+    -z|--zen)
+      zen="true"
+      if ! has_command zen && ! has_command zen-browser && ! has_flatpak_app app.zen_browser.zen && ! has_flatpak_app io.github.zen_browser.zen; then
+        if [[ ! -d "${ZEN_DIR_HOME}" && ! -d "${ZEN_FLATPAK_DIR_HOME}" && ! -d "${ZEN_FLATPAK_DIR_HOME_ALT}" ]]; then
+          prompt -e "'${1}' ERROR: There's no Zen Browser installed in your system"
+          has_any_error="true"
+        fi
+      fi
+      if pidof "zen" &> /dev/null || pidof "zen-bin" &> /dev/null || pidof "zen-browser" &> /dev/null; then
+        prompt -e "'${1}' ERROR: Zen is running, please close it"
+        has_any_error="true"
+      fi; shift ;;
     -g|--gdm)
       gdm="true"; full_sudo "${1}"
       showapps_normal="true" # use normal showapps icon
@@ -262,7 +276,7 @@ if [[ "${uninstall}" == 'true' ]]; then
   prompt -w "REMOVAL: Non file-related parameters will be ignored. \n"
 
   if [[ "${gdm}" == 'true' ]]; then
-    if [[ "${firefox}" == 'true' || "${edit_firefox}" == 'true' || "${flatpak}" == 'true' || "${snap}" == 'true' || "${dash_to_dock}" == 'true' ]]; then
+    if [[ "${firefox}" == 'true' || "${edit_firefox}" == 'true' || "${zen}" == 'true' || "${flatpak}" == 'true' || "${snap}" == 'true' || "${dash_to_dock}" == 'true' ]]; then
       prompt -e "Do not run this option with '--gdm' \n"
     else
       prompt -i "Removing '${name}' GDM theme... \n"
@@ -288,16 +302,22 @@ if [[ "${uninstall}" == 'true' ]]; then
     remove_firefox_theme
     prompt -s "Done! '${firefoxtheme}' Firefox theme has been removed. \n"
   fi
+
+  if [[ "${zen}" == 'true' && "${gdm}" != 'true' ]]; then
+    prompt -i "Removing Zen Safari theme... \n"
+    remove_zen_theme
+    prompt -s "Done! Zen Safari theme has been removed. \n"
+  fi
 else
 #  show_needed_dialogs
   customize_theme
 
   if [[ "${gdm}" == 'true' ]]; then
-    if [[ "${firefox}" == 'true' || "${edit_firefox}" == 'true' || "${flatpak}" == 'true' || "${snap}" == 'true' || "${dash_to_dock}" == 'true' ]]; then
+    if [[ "${firefox}" == 'true' || "${edit_firefox}" == 'true' || "${zen}" == 'true' || "${flatpak}" == 'true' || "${snap}" == 'true' || "${dash_to_dock}" == 'true' ]]; then
       prompt -e "Do not run this option with '--gdm' \n"
     else
       prompt -i "Installing '${name}' GDM theme... \n"
-      if [[ "$GNOME_VERSION" == '48-0' ]]; then
+      if [[ "${SHELL_VERSION:-}" -ge "48" ]]; then
         install_only_gdm_theme
       else
         install_gdm_theme
@@ -348,9 +368,16 @@ else
       prompt -i "FIREFOX: Anyway, you can also edit 'userChrome.css' and 'customChrome.css' later in your Firefox profile directory. \n"
     fi
   fi
+
+  if [[ "${zen}" == 'true' && "${gdm}" != 'true' ]]; then
+    prompt -i "Installing WhiteSur Safari theme for Zen... \n"
+    install_zen_theme
+    prompt -s "Done! Zen Safari theme has been installed. \n"
+    prompt -w "ZEN: Restart Zen after install. Enable toolkit.legacyUserProfileCustomizations.stylesheets if the chrome does not load.\n"
+  fi
 fi
 
-if [[ "${firefox}" == "false" && "${edit_firefox}" == "false" && "${flatpak}" == "false" && "${gdm}" == "false" && "${dash_to_dock}" == "false" && "${libadwaita}" == "false" ]]; then
+if [[ "${firefox}" == "false" && "${edit_firefox}" == "false" && "${zen}" == "false" && "${flatpak}" == "false" && "${gdm}" == "false" && "${dash_to_dock}" == "false" && "${libadwaita}" == "false" ]]; then
   prompt -e "Oops... there's nothing to tweak..."
   prompt -i "HINT: Don't forget to define which component to tweak, e.g. '--gdm'"
   prompt -i "HINT: Run ./tweaks.sh -h for help!... \n"

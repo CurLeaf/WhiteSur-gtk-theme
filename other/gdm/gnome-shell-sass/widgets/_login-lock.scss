@@ -44,7 +44,9 @@ $_gdm_dialog_width: 25em;
   &.a11y-button,
   &.cancel-button,
   &.switch-user-button,
-  &.login-dialog-session-list-button {
+  &.login-dialog-auth-menu-button,
+  &.login-dialog-session-list-button,
+  &.web-login-intro-button {
     @extend .icon-button;
     @extend %lockscreen_button;
     padding: to_em(16px);
@@ -360,6 +362,99 @@ $_gdm_dialog_width: 25em;
           padding: $base_padding * 5;
         }
       }
+    }
+  }
+}
+
+.login-dialog-auth-menu-button-title {
+  @extend %caption;
+  color: darken($_gdm_fg, 20%);
+  padding: $base_padding $base_padding * 2 $base_padding * 2;
+}
+
+.login-dialog-auth-menu-button-popup-menu-box {
+  padding: $base_padding * 3;
+}
+
+.login-dialog-auth-menu-button-item {
+  padding: 0 $base_padding * 2;
+}
+
+.web-login-dialog-content-overlay {
+  background-color: transparentize($_gdm_bg, 0.3);
+  border-radius: $modal_radius;
+  margin-bottom: 3em;
+}
+
+.web-login-spinner {
+  color: $_gdm_fg;
+  background-color: transparentize($_gdm_bg, 0.5);
+  border: 5px solid transparent;
+  border-radius: 50px;
+}
+
+.web-login-title-label { color: darken($_gdm_fg, 15%); }
+
+.web-login-url-label {
+  color: $_gdm_fg;
+  text-align: center;
+}
+
+.web-login-code-title-label { color: $_gdm_fg; }
+
+.web-login-code-label {
+  color: $_gdm_fg;
+  font-weight: bold;
+}
+
+.web-login-prompt {
+  padding: $base_padding $base_padding * 4.5;
+  spacing: 1.75em;
+  border-radius: $modal_radius;
+}
+
+.web-login-intro-button-label {
+  @extend %title_3;
+  color: $_gdm_fg;
+  height: 3em;
+  text-align: center;
+}
+
+.web-login-intro-button {
+  color: $_gdm_fg;
+  height: 3em;
+  text-align: center;
+  border-radius: 1000px;
+}
+
+.parental-controls-shield {
+  spacing: 0.75em;
+
+  .parental-controls-shield-title {
+    @extend %title_4;
+    margin-top: 0.6em;
+    text-align: center;
+  }
+
+  .parental-controls-shield-description { text-align: center; }
+
+  .parental-controls-shield-button {
+    @extend %lockscreen_button;
+    margin-top: 0.85em;
+    padding: $base_padding * 2.5 $base_padding * 7;
+    border-radius: 1000px;
+    &:focus { @include remove_hc_inset(); }
+  }
+}
+
+.auth-notification-banner {
+  .message-header {
+    width: 0;
+    height: 0;
+
+    .message-close-button {
+      border: none;
+      background-color: transparent;
     }
   }
 }

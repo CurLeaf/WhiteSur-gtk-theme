@@ -1,0 +1,208 @@
+/* GNOME 50 login / lock extras
+ *
+ * Shell 49–50 added web login, parental-controls shield, auth-method
+ * menus, and conflicting-session dialogs. Without these selectors the
+ * greeter and lock screen fall through to Adwaita.
+ */
+
+.login-dialog-bottom-button-group {
+  padding: $base_padding * 8;
+  spacing: $base_padding * 4;
+}
+
+.login-dialog-button-box,
+.login-dialog-menu-button-box {
+  spacing: $base_padding * 3;
+}
+
+.login-dialog-menu-button-box {
+  padding: 0 $base_padding * 3 $base_padding * 3;
+}
+
+.login-dialog-button {
+  &.a11y-button,
+  &.cancel-button,
+  &.switch-user-button,
+  &.login-dialog-auth-menu-button,
+  &.login-dialog-session-list-button,
+  &.web-login-intro-button {
+    padding: $scaled_padding;
+    border-radius: $circular_radius;
+  }
+
+  &.cancel-button {
+    padding: $base_padding * 2;
+  }
+}
+
+.login-dialog-auth-menu-button-title {
+  @extend %caption_heading;
+  color: $light_hint_fg_color;
+  padding: $base_padding $base_padding * 3 $base_padding * 3;
+}
+
+.login-dialog-auth-menu-button-popup-menu-box {
+  padding: $base_padding * 4;
+}
+
+.login-dialog-auth-menu-button-item {
+  padding: 0 $base_padding * 3;
+}
+
+.conflicting-session-dialog-content {
+  spacing: $base_padding * 5;
+
+  .conflicting-session-dialog-title {
+    @extend %title_2;
+    text-align: center;
+    margin-bottom: $base_margin;
+  }
+
+  .conflicting-session-dialog-desc {
+    text-align: center;
+  }
+
+  .conflicting-session-dialog-desc-warning {
+    text-align: center;
+    color: $warning_color;
+    background-color: transparentize($warning_color, 0.9);
+    padding: $base_padding * 2;
+    border-radius: $bt_radius;
+    margin: $base_margin 0;
+  }
+}
+
+.login-dialog-auth-list-view {
+  -st-vfade-offset: 3em;
+}
+
+.login-dialog-auth-list {
+  spacing: $base_padding;
+  margin-left: 2em;
+}
+
+.login-dialog-auth-list-title {
+  margin-left: 2em;
+  padding-bottom: $base_padding;
+}
+
+.login-dialog-auth-list-label {
+  @extend %title_4;
+
+  &:ltr { padding-left: $base_padding * 2.5; text-align: left; }
+  &:rtl { padding-right: $base_padding * 2.5; text-align: right; }
+}
+
+.login-dialog,
+.unlock-dialog {
+  .login-dialog-auth-list-item {
+    border-radius: $modal_radius * 0.6;
+    padding: $base_padding * 1.2;
+    color: $light_fg_color;
+    background-color: $light_divider_color;
+
+    &:hover, &:focus {
+      background-color: $light_track_color;
+      color: $light_fg_color;
+    }
+
+    &:active, &:selected {
+      background-color: $light_visit_color;
+      color: $light_fg_color;
+    }
+  }
+}
+
+.web-login-dialog-content-overlay {
+  background-color: rgba($solid_osd_bg_color, 0.7);
+  border-radius: $wm_radius;
+  margin-bottom: 3em;
+}
+
+.web-login-spinner {
+  color: $light_fg_color;
+  background-color: rgba($solid_osd_bg_color, 0.5);
+  border: 5px solid transparent;
+  border-radius: $circular_radius;
+}
+
+.web-login-title-label {
+  color: $light_alt_fg_color;
+}
+
+.web-login-url-label {
+  color: $light_fg_color;
+  text-align: center;
+}
+
+.web-login-code-title-label {
+  color: $light_fg_color;
+}
+
+.web-login-code-label {
+  color: $light_fg_color;
+  font-weight: bold;
+}
+
+.web-login-prompt {
+  padding: $base_padding $base_padding * 6;
+  spacing: 1.75em;
+  border-radius: $wm_radius;
+}
+
+.web-login-intro-button-label {
+  @extend %title_3;
+  color: $light_fg_color;
+  height: 3em;
+  text-align: center;
+}
+
+.web-login-intro-button {
+  color: $light_fg_color;
+  height: 3em;
+  text-align: center;
+  border-radius: $circular_radius;
+  background-color: $light_divider_color;
+
+  &:hover, &:focus { background-color: $light_track_color; }
+  &:active { background-color: $light_visit_color; }
+}
+
+.parental-controls-shield {
+  spacing: 0.75em;
+
+  .parental-controls-shield-title {
+    @extend %title_4;
+    margin-top: 0.6em;
+    text-align: center;
+    color: $light_fg_color;
+  }
+
+  .parental-controls-shield-description {
+    text-align: center;
+    color: $light_alt_fg_color;
+  }
+
+  .parental-controls-shield-button {
+    margin-top: 0.85em;
+    padding: $base_padding * 4 $base_padding * 11;
+    color: $light_fg_color;
+    background-color: $light_divider_color;
+    border-radius: $circular_radius;
+
+    &:hover, &:focus { background-color: $light_track_color; }
+    &:active { background-color: $light_visit_color; }
+  }
+}
+
+.auth-notification-banner {
+  .message-header {
+    width: 0;
+    height: 0;
+
+    .message-close-button {
+      border: none;
+      background-color: transparent;
+    }
+  }
+}

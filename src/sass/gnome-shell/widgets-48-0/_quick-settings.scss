@@ -164,7 +164,7 @@
   padding: $base_padding * 3;
   border: none !important;
 
-  @if($GNOME_SHELL == '48') {
+  @if $GNOME_SHELL >= 48 {
     margin: $base_padding * 2 $base_padding * 6;
   } @else {
     margin: $base_padding * 2 0 0;

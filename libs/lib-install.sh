@@ -542,7 +542,16 @@ config_gtk4() {
   rm -rf                                                                                      "${TARGET_DIR}/"{gtk.css,gtk-dark.css,gtk-Light.css,gtk-Dark.css,assets,windows-assets}
   sassc ${SASSC_OPT} "${THEME_SRC_DIR}/main/gtk-4.0/gtk-Light.scss"                           "${TARGET_DIR}/gtk-Light.css"
   sassc ${SASSC_OPT} "${THEME_SRC_DIR}/main/gtk-4.0/gtk-Dark.scss"                            "${TARGET_DIR}/gtk-Dark.css"
-  ln -sf "${TARGET_DIR}/gtk${color}.css"                                                      "${TARGET_DIR}/gtk.css"
+  # gtk.css follows prefers-color-scheme so prefer-light / prefer-dark both work.
+  # gtk-dark.css stays the dark pack for GTK4 loaders that still ask for it.
+  cat >                                                                                       "${TARGET_DIR}/gtk.css" <<'EOF'
+@media (prefers-color-scheme: dark) {
+  @import url("gtk-Dark.css");
+}
+@media not (prefers-color-scheme: dark) {
+  @import url("gtk-Light.css");
+}
+EOF
   ln -sf "${TARGET_DIR}/gtk-Dark.css"                                                         "${TARGET_DIR}/gtk-dark.css"
   cp -r "${THEME_SRC_DIR}/assets/gtk/common-assets/assets"                                    "${TARGET_DIR}"
   cp -r "${THEME_SRC_DIR}/assets/gtk/common-assets/sidebar-assets/"*".png"                    "${TARGET_DIR}/assets"
@@ -963,6 +972,78 @@ remove_firefox_theme() {
   rm -rf "${TARGET_DIR}"/userContent.css
 }
 
+_copy_whitesur_browser_chrome() {
+  local TARGET_DIR="${1}"
+  mkdir -p                                                                                    "${TARGET_DIR}/WhiteSur/parts"
+  cp -rf "${FIREFOX_SRC_DIR}/WhiteSur/."                                                      "${TARGET_DIR}/WhiteSur"
+  cp -rf "${FIREFOX_SRC_DIR}"/common/{icons,pages}                                            "${TARGET_DIR}/WhiteSur"
+  cp -rf "${FIREFOX_SRC_DIR}"/common/titlebuttons                                             "${TARGET_DIR}/WhiteSur/titlebuttons"
+  cp -rf "${FIREFOX_SRC_DIR}"/common/*.css                                                    "${TARGET_DIR}/WhiteSur"
+  cp -rf "${FIREFOX_SRC_DIR}"/common/parts/*.css                                              "${TARGET_DIR}/WhiteSur/parts"
+}
+
+_enable_browser_userchrome() {
+  local profile_dir="${1}"
+  rm -rf                                                                                      "${profile_dir}/user.js"
+  udoify_file                                                                                 "${profile_dir}/user.js"
+  echo "user_pref(\"toolkit.legacyUserProfileCustomizations.stylesheets\", true);" >>         "${profile_dir}/user.js"
+  echo "user_pref(\"browser.tabs.drawInTitlebar\", true);"                         >>         "${profile_dir}/user.js"
+  echo "user_pref(\"browser.uidensity\", 0);"                                      >>         "${profile_dir}/user.js"
+  echo "user_pref(\"svg.context-properties.content.enabled\", true);"              >>         "${profile_dir}/user.js"
+  echo "user_pref(\"widget.gtk.rounded-bottom-corners.enabled\", true);"           >>         "${profile_dir}/user.js"
+}
+
+_zen_profile_dirs() {
+  local root profile path
+  for root in "${ZEN_DIR_HOME}" "${ZEN_FLATPAK_DIR_HOME}" "${ZEN_FLATPAK_DIR_HOME_ALT}"; do
+    [[ -d "${root}" ]] || continue
+    if [[ -f "${root}/profiles.ini" ]]; then
+      while IFS= read -r path; do
+        [[ -z "${path}" ]] && continue
+        if [[ "${path}" == /* ]]; then
+          profile="${path}"
+        else
+          profile="${root}/${path}"
+        fi
+        [[ -d "${profile}" ]] && printf '%s\n' "${profile}"
+      done < <(awk -F= '/^Path=/{print $2}' "${root}/profiles.ini")
+    fi
+    for profile in "${root}/"*default* "${root}/"*Default*; do
+      [[ -d "${profile}" ]] && printf '%s\n' "${profile}"
+    done
+  done | awk 'NF && !seen[$0]++'
+}
+
+install_zen_theme() {
+  local profile chrome_dir
+  local found="false"
+
+  while IFS= read -r profile; do
+    found="true"
+    chrome_dir="${profile}/chrome"
+    rm -rf                                                                                    "${chrome_dir}"
+    mkdir -p                                                                                  "${chrome_dir}"
+    _copy_whitesur_browser_chrome                                                             "${chrome_dir}"
+    cp -rf "${ZEN_SRC_DIR}/userChrome.css"                                                    "${chrome_dir}/userChrome.css"
+    cp -rf "${ZEN_SRC_DIR}/userContent.css"                                                   "${chrome_dir}/userContent.css"
+    cp -rf "${ZEN_SRC_DIR}/customChrome.css"                                                  "${chrome_dir}/customChrome.css"
+    _enable_browser_userchrome                                                                "${profile}"
+    prompt -s "  Installed Zen Safari chrome in ${chrome_dir}"
+  done < <(_zen_profile_dirs)
+
+  if [[ "${found}" != "true" ]]; then
+    prompt -e "Zen is installed but no profile was found. Open Zen once, then re-run."
+    return 1
+  fi
+}
+
+remove_zen_theme() {
+  local profile
+  while IFS= read -r profile; do
+    rm -rf "${profile}/chrome"
+  done < <(_zen_profile_dirs)
+}
+
 ###############################################################################
 #                               DASH TO DOCK                                  #
 ###############################################################################
@@ -1034,6 +1115,8 @@ connect_flatpak() {
       done
     done
   done
+
+  grant_flatpak_gtk_config
 }
 
 disconnect_flatpak() {

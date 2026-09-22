@@ -211,7 +211,10 @@ $menu_bd:                           if($variant == 'light', rgba(black, 0.08), r
   $menu_bg:                         if($variant == 'light', rgba($base_color, $opacity), rgba($bg_color, $opacity));
 }
 
-$popover_opacity:                   if($trans == 'false', 1, if($shell_version == 'new', 0.92, 0.96));
+// GNOME Shell menus are separate compositor surfaces. Opacity < 1 blends
+// wallpaper through them on every frame — same cost as a translucent panel
+// at 100 Hz. Keep them solid even when GTK windows stay translucent.
+$popover_opacity:                   1;
 $popover_bg_color:                  if($variant == 'light', rgba($bg_color, $popover_opacity), rgba($base_color, $popover_opacity));
 
 $submenu_bg_color:                  if($variant == 'light', rgba(white, 1), rgba(white, 0.1));

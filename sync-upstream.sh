@@ -7,10 +7,9 @@ cd "$REPO_DIR"
 git fetch upstream
 git rebase upstream/master
 
-./install.sh -c dark -o normal -l -f --round --shell -i apple
-
-# Keep Ubuntu-side window buttons on the right (theme index already patched).
-gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close' || true
+# Reinstall theme + desktop convention. GDM stays as-is unless you pass it
+# yourself — rebasing should not rewrite /usr/share without asking.
+./apply-local.sh --skip-gdm
 
 if rg -q 'color-mix\(in srgb, black 6% [^,]' "$HOME/.config/gtk-4.0/gtk-Light.css" 2>/dev/null; then
   echo "ERROR: broken color-mix() still present in gtk-Light.css" >&2

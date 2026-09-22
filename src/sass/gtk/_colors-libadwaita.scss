@@ -220,6 +220,10 @@ $dark_5: #000000;
   @define-color popover_bg_color #{$menu_bg};
   @define-color popover_fg_color #{$text_color};
   @define-color popover_shade_color #{if($variant == 'light', transparentize(black, .93), transparentize(black, .75))};
+
+  // AdwToggleGroup
+  @define-color active_toggle_bg_color #{if($variant == 'light', white, gtkalpha(white, 0.2))};
+  @define-color active_toggle_fg_color #{if($variant == 'light', $text_color, white)};
   
   // Thumbnails
   @define-color thumbnail_bg_color #{gtkmix($base_color, $bg_color, 50%)};
@@ -245,6 +249,9 @@ $dark_5: #000000;
     --accent-color: @accent_bg_color;
     --accent-bg-color: @accent_bg_color;
     --accent-fg-color: @accent_fg_color;
+
+    --active-toggle-bg-color: #{if($variant == 'light', white, gtkalpha(white, 0.2))};
+    --active-toggle-fg-color: #{if($variant == 'light', #{$text_color}, white)};
   }
 
   $selected_bg_color: gtkcolor(accent_bg_color);

@@ -110,6 +110,23 @@ EOF
   done
 }
 
+grant_flatpak_gtk_config() {
+  local override=(
+    --filesystem=xdg-config/gtk-3.0:ro
+    --filesystem=xdg-config/gtk-4.0:ro
+    --filesystem=xdg-data/themes:ro
+    --filesystem=~/.themes:ro
+  )
+
+  if [[ -w "/root" ]]; then
+    sudo flatpak override --system "${override[@]}"
+  fi
+  if has_command flatpak; then
+    flatpak override --user "${override[@]}"
+  fi
+  prompt -s "Granted Flatpak filesystem=xdg-config/gtk-{3,4}.0 so libadwaita apps can read WhiteSur.\n"
+}
+
 flatpak_remove() {
   local color="$(destify ${1})"
   local opacity="$(destify ${2})"
